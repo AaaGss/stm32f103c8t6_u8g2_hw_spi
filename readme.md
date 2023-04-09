@@ -218,12 +218,12 @@ void u8g2Init(u8g2_t *u8g2)
 }
 
 ```
-第一个函数 ==u8x8_byte_4wire_hw_spi== 是通信的，用的硬件SPI或者SPI的DMA,具体看注释。
-第二个函数 ==u8x8_stm32_gpio_and_delay== 是回调函数，控制片选、延时、初始化引脚的，具体看注释。
+第一个函数 **u8x8_byte_4wire_hw_spi** 是通信的，用的硬件SPI或者SPI的DMA,具体看注释。
+第二个函数 **u8x8_stm32_gpio_and_delay** 是回调函数，控制片选、延时、初始化引脚的，具体看注释。
 第三个函数 draw 是官方提供的Logo绘制demo。
 第四个函数 u8g2Init 是初始化U8g2的，这个函数里面的 u8g2_Setup_ssd1306_128x64_noname_f 函数是之前保留的，这个函数会调用前面写的两个回调函数（u8x8_byte_4wire_hw_spi和u8x8_stm32_gpio_and_delay），所以这两个回调函数是 **重中之重**。
 
-**==注意==** : 用硬件通信，无论是SPI、IIC或者其他协议,都需要自己写类似于==u8x8_byte_4wire_hw_spi== 的回调函数；用软件通信，都不用写，因为这个U8g2库里有，具体在 u8x8_byte.c 这个文件里，里面有 **4线软件SPI、3线软件SPI、软件IIC、6800、8080** 等通信的回调函数。**本篇介绍的是用硬件SPI的，主要是用硬件SPI的网上没有详细教程，所以贡献一下。如果用硬件IIC或者其他通信可以看[这里](https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform)**。
+**注意** : 用硬件通信，无论是SPI、IIC或者其他协议,都需要自己写类似于**u8x8_byte_4wire_hw_spi** 的回调函数；用软件通信，都不用写，因为这个U8g2库里有，具体在 u8x8_byte.c 这个文件里，里面有 **4线软件SPI、3线软件SPI、软件IIC、6800、8080** 等通信的回调函数。**本篇介绍的是用硬件SPI的，主要是用硬件SPI的网上没有详细教程，所以贡献一下。如果用硬件IIC或者其他通信可以看[这里](https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform)**。
 
 ### 3.5 主函数初始化U8g2，绘制logo
 最后，在主函数里，先初始化oled，再调用 u8g2Init ，然后绘制logo，代码如下：
